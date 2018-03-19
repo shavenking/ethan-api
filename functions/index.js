@@ -28,7 +28,7 @@ posts.get('/', (request, response) => {
 
         snapshot.forEach(post => {
             posts.push(Object.assign({
-                likes: []
+                likes: {}
             }, post.val(), {
                 is_liked: post.child(`likes/${username}`).exists() || false
             }));
