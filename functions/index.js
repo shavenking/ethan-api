@@ -44,8 +44,11 @@ posts.post('/', (request, response) => {
     const username = request.headers.username;
 
     return db.ref('posts').orderByKey().limitToLast(1).once('value').then(snapshot => {
-        const keys = Object.keys(snapshot.val());
-        const nextId = keys.length ? snapshot.val()[keys[0]].id + 1 : 1;
+        let nextId = 1;
+        if (snapshot.val()) {
+            const keys = Object.keys(snapshot.val());
+            nextId = keys.length ? snapshot.val()[keys[0]].id + 1 : 1;
+        }
 
         db.ref(`posts/${nextId}`).set({
             id: nextId,
